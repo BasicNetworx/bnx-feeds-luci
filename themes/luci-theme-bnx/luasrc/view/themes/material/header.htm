@@ -23,6 +23,7 @@
 	local util = require "luci.util"
 	local http = require "luci.http"
 	local disp = require "luci.dispatcher"
+	local uci = require "uci"
 
 	local boardinfo = util.ubus("system", "board")
 
@@ -160,15 +161,15 @@
 <html lang="<%=luci.i18n.context.lang%>">
 <head>
 	<meta charset="utf-8">
-	<title><%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
+	<title><%=uci.get('version', 'version', 'model')%></title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="theme-color" content="#09c">
 	<meta name="msapplication-tap-highlight" content="no">
 	<meta name="msapplication-TileColor" content="#09c">
-	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
-	<meta name="apple-mobile-web-app-title" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
+	<meta name="application-name" content="<%=uci.get('version', 'version', 'model')%>">
+	<meta name="apple-mobile-web-app-title" content="<%=uci.get('version', 'version', 'model')%>">
 	<link rel="stylesheet" href="<%=media%>/cascade.css">
 	<link rel="shortcut icon" href="<%=media%>/favicon.ico">
 	<% if node and node.css then %>
@@ -182,21 +183,17 @@
 	<script src="<%=resource%>/xhr.js"></script>
 </head>
 <body class="lang_<%=luci.i18n.context.lang%> <% if node then %><%= striptags( node.title ) %><% end %> <% if luci.dispatcher.context.authsession then %>logged-in<% end %>" data-page="<%= pcdata(table.concat(disp.context.requestpath, "-")) %>">
+
 <header>
 	<div class="fill">
 		<div class="container">
 			<span class="showSide"></span>
-			<a id="logo" href="<% if luci.dispatcher.context.authsession then %><%=url('admin/status/overview')%><% else %>#<% end %>"><img src="<%=media%>/brand.png" alt="OpenWrt"></a>
-			<a class="brand" href="#"><%=boardinfo.hostname or "?"%></a>
-			<div class="status">
-				<span id="xhr_poll_status" style="display:none" onclick="XHR.running() ? XHR.halt() : XHR.run()">
-					<span class="label success" id="xhr_poll_status_on"><span class="mobile-hide"><%:Auto Refresh%></span> <%:on%></span>
-					<span class="label" id="xhr_poll_status_off" style="display:none"><span class="mobile-hide"><%:Auto Refresh%></span> <%:off%></span>
-				</span>
-			</div>
+			<a id="logo" href="<% if luci.dispatcher.context.authsession then %><%=url('admin/status/overview')%><% else %>#<% end %>"><img src="<%=media%>/logo.png" alt="BasicNetworx" style="width:2.5rem"></a>
+			<a class="brand" href="#"><%=uci.get('version', 'version', 'model')%></a>
 		</div>
 	</div>
 </header>
+
 <div class="main">
 	<div style="" class="loading"><span><div class="loading-img"></div><%:Collecting data...%></span></div>
 	<div class="main-left">

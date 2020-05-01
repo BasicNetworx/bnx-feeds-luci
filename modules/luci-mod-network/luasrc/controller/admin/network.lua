@@ -8,10 +8,10 @@ function index()
 	local page
 
 --	if page.inreq then
-		page = entry({"admin", "network", "switch"}, view("network/switch"), _("Switch"), 20)
+		page = entry({"admin", "network", "switch"}, view("network/switch"), _("VLAN"), 20)
 		page.uci_depends = { network = { ["@switch[0]"] = "switch" } }
 
-		page = entry({"admin", "network", "wireless"}, view("network/wireless"), _('Wireless'), 15)
+		page = entry({"admin", "network", "wireless"}, view("network/wireless"), _('Wifi'), 15)
 		page.uci_depends = { wireless = { ["@wifi-device[0]"] = "wifi-device" } }
 		page.leaf = true
 
