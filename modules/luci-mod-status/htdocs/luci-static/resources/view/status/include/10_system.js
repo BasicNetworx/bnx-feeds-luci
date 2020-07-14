@@ -12,6 +12,12 @@ var callSystemInfo = rpc.declare({
 	method: 'info'
 });
 
+var callVersionInfo = rpc.declare({
+	object: 'uci',
+	method: 'get',
+	params: ['config']
+});
+
 return L.Class.extend({
 	title: _('System'),
 
@@ -19,6 +25,7 @@ return L.Class.extend({
 		return Promise.all([
 			L.resolveDefault(callSystemBoard(), {}),
 			L.resolveDefault(callSystemInfo(), {}),
+			L.resolveDefault(callVersionInfo('version'), {}),
 			fs.lines('/usr/lib/lua/luci/version.lua')
 		]);
 	},
@@ -26,7 +33,8 @@ return L.Class.extend({
 	render: function(data) {
 		var boardinfo   = data[0],
 		    systeminfo  = data[1],
-		    luciversion = data[2];
+		    versioninfo = data[2].values.version,
+		    luciversion = data[3];
 
 		luciversion = luciversion.filter(function(l) {
 			return l.match(/^\s*(luciname|luciversion)\s*=/);
@@ -50,8 +58,8 @@ return L.Class.extend({
 		}
 
 		var fields = [
-			_('Model'),            'BNX-2000',
-			_('Software Version'), '0.9.6-beta',
+			_('Model'),            versioninfo.model,
+			_('Software Version'), versioninfo.software,
 			_('Local Time'),       datestr,
 			_('Uptime'),           systeminfo.uptime ? '%t'.format(systeminfo.uptime) : null
 		];
