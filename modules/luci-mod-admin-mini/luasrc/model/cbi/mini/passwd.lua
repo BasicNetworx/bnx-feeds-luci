@@ -2,7 +2,7 @@
 -- Copyright 2008 Jo-Philipp Wich <jow@openwrt.org>
 -- Licensed to the public under the Apache License 2.0.
 
-f = SimpleForm("password", translate("Admin Password"), translate("Change the password of the system administrator (User <code>root</code>)"))
+f = SimpleForm("password", translate("Admin Password"), translate("Change the password of the system administrator (User <code>admin</code>)"))
 
 pw1 = f:field(Value, "pw1", translate("Password"))
 pw1.password = true
@@ -18,7 +18,7 @@ end
 
 function f.handle(self, state, data)
 	if state == FORM_VALID then
-		local stat = luci.sys.user.setpasswd("root", data.pw1) == 0
+		local stat = luci.sys.user.setpasswd("admin", data.pw1) == 0
 		
 		if stat then
 			f.message = translate("Password successfully changed")
