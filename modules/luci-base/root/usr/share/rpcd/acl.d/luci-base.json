@@ -94,7 +94,8 @@
 				"/tmp/firmware.bin": [ "write" ],
 				"/tmp/upload.ipk": [ "write" ],
 				"/usr/sbin/iptables -Z": [ "exec" ],
-				"/usr/sbin/ip6tables -Z": [ "exec" ]
+				"/usr/sbin/ip6tables -Z": [ "exec" ],
+				"/usr/bin/sim-pci-reset": [ "exec" ]
 			},
 			"ubus": {
 				"file": [ "write", "remove", "exec" ],

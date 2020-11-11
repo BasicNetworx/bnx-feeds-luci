@@ -977,6 +977,9 @@ return L.view.extend({
 
 					if (dsc.getAttribute('reconnect') == '') {
 						dsc.setAttribute('reconnect', '1');
+						tasks.push(fs.exec_direct('/usr/bin/sim-pci-reset', [section_ids[i]]).catch(function(e) {
+							ui.addNotification(null, E('p', e.message));
+						}));
 						tasks.push(fs.exec('/sbin/ifup', [section_ids[i]]).catch(function(e) {
 							ui.addNotification(null, E('p', e.message));
 						}));
