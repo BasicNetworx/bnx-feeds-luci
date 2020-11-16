@@ -2751,6 +2751,10 @@ return L.Class.extend({
 					E('p', _('Waiting for configuration to get applied… %ds')
 						.format(Math.max(Math.floor((deadline - Date.now()) / 1000), 0))));
 
+				if((Math.max(Math.floor((deadline - Date.now()) / 1000))) == 0) {
+					location.reload();
+				}
+
 				if (now >= deadline)
 					return;
 
