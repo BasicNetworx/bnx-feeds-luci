@@ -2751,12 +2751,16 @@ return L.Class.extend({
 					E('p', _('Waiting for configuration to get applied… %ds')
 						.format(Math.max(Math.floor((deadline - Date.now()) / 1000), 0))));
 
-				if((Math.max(Math.floor((deadline - Date.now()) / 1000))) == 0) {
-					location.reload();
-				}
-
 				if (now >= deadline)
 					return;
+
+				if((Math.max(Math.floor((deadline - Date.now()) / 1000))) == 0) {
+					if (location.href.indexOf("#") != -1) {
+						location.reload();
+					} else {
+						location.href = location.href;
+					}
+				}
 
 				tt = window.setTimeout(tick, 1000 - (now - ts));
 				ts = now;
