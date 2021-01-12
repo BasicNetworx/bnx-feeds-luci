@@ -40,5 +40,9 @@ function auto.cfgvalue(...)
 	return translate(" ")
 end
 
+p = mp:section(NamedSection, "vpn", "vpn")
+p:option(DummyValue, "status", "Status", "VPN Client status")
+p.anonymouse = true
+
 return mp
 
