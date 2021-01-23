@@ -1,4 +1,6 @@
 local uci = require "uci"
+local fs = require "nixio.fs"
+local ut = require "luci.util"
 
 mp = Map("bnx-vpn", translate("VPN Client"))
 mp.description = translate("VPN connectivity using the native built-in VPN Client on BNX device")
@@ -20,9 +22,59 @@ endpoint:depends("mode","manual")
 endpoint.datatype = "string"
 endpoint.description = translate("VPN endpoint for vpn client connection")
 
+authmode = s:option(ListValue, "authmode", translate("Authmode"))
+authmode:depends("mode","manual")
+authmode.datatype = "string"
+authmode:value("psk", "psk")
+authmode:value("pki", "pki")
+authmode.default = "psk"
+
 psk = s:option(Value, "psk", translate("Secret Pre-Shared Key"))
-psk:depends("mode","manual")
+psk:depends("authmode","psk")
 psk.password = true
+
+ca = s:option(TextValue, "ca-cert","Endpoint cert")
+ca.description = translate("VPN Client endpoint certificate (Copy paste your endpoint certificate in above text box)")
+ca:depends("authmode","pki")
+function ca.cfgvalue()
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","endpoint_cert")
+        return fs.readfile(fileName)
+end
+function ca.write(self, section, data)
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","endpoint_cert")
+        return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
+end
+
+devca = s:option(TextValue, "dev-cert","Device cert")
+devca.description = translate("VPN Client device certificate ( Copy paste your device certificate in above text box )")
+devca:depends("authmode","pki")
+function devca.cfgvalue()
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","device_cert")
+        return fs.readfile(fileName)
+end
+function devca.write(self, section, data)
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","device_cert")
+        return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
+end
+
+cakey = s:option(TextValue, "ca-key","Private key")
+cakey.description = translate("VPN Client device private key ( Copy paste your device private key in above text box )")
+cakey:depends("authmode","pki")
+function cakey.cfgvalue()
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","device_privkey")
+        return fs.readfile(fileName)
+end
+function cakey.write(self, section, data)
+	x = uci.cursor()
+	local fileName = x:get("bnx-vpn","vpn","device_privkey")
+        return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
+end
+
 
 auto = s:option(DummyValue, "auto_on", " ")
 auto:depends("mode","auto")
