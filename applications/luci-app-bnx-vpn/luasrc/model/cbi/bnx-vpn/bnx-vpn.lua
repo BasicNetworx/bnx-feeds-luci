@@ -17,7 +17,7 @@ if auto_mode == "auto" then
 	function auto_s.cfgvalue(...)
 		local v = Value.cfgvalue(...)
 		if v == "1" then
-			local val = "This device VPN connection is being managed by the BNX managed VPN servces."
+			local val = "This device VPN connection is being managed by the BNX cloud."
 			return translate(val)
 		end
 	end
@@ -27,7 +27,7 @@ if auto_mode == "auto" then
 		if v == "1" then
 			x = uci.cursor()
 			local name = x:get("bnx-vpn","vpn","auto_name")
-			local val = "This device belongs to the " .. name .. " VPN" 
+			local val = "This device belongs to the " .. name .. " VPN"
 			return translate(val)
 		else
 			local val = "This device does not belong to a VPN."
