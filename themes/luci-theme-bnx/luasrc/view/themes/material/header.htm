@@ -156,6 +156,15 @@
 			write('</ul>')
 		end
 	end
+
+	local function get_title(model, org)
+		local title = model
+		if org then
+			title = title .. " (" .. org .. ")"
+		end
+		return title
+	end
+
 -%>
 <!DOCTYPE html>
 <html lang="<%=luci.i18n.context.lang%>">
@@ -189,7 +198,7 @@
 		<div class="container">
 			<span class="showSide"></span>
 			<a id="logo" href="<% if luci.dispatcher.context.authsession then %><%=url('admin/status/overview')%><% else %>#<% end %>"><img src="<%=media%>/logo.png" alt="BasicNetworx" style="width:2.5rem"></a>
-			<a class="brand" href="#"><%=uci.get('version', 'version', 'model')%></a>
+			<a class="brand" href="#"><%=get_title(uci.get('version', 'version', 'model'), uci.get('provision', 'state', 'org_name'))%></a>
 		</div>
 	</div>
 </header>
