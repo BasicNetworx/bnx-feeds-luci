@@ -2,12 +2,12 @@ local uci = require "uci"
 local fs = require "nixio.fs"
 local ut = require "luci.util"
 
-mp = Map("provision", translate("Provisioning"))
+mp = Map("bnx-cloud-services", translate("Provisioning"))
 mp.description = translate("Device provisioning using BNX Cloud")
 
 x = uci.cursor()
-local org_name = x:get("provision","state","org_name")
-local org_key = x:get("provision","settings","org_key")
+local org_name = x:get("bnx-cloud-services","state","org_name")
+local org_key = x:get("bnx-cloud-services","settings","org_key")
 
 s = mp:section(NamedSection, "state", "state", "Status")
 s.anonymouse = true

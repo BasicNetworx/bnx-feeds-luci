@@ -1,7 +1,7 @@
 module("luci.controller.bnx-provisioning", package.seeall)
 
 function index()
-	if not nixio.fs.access("/etc/config/provision") then
+	if not nixio.fs.access("/etc/config/bnx-cloud-services") then
 		return
 	end
 
