@@ -57,7 +57,7 @@ else
 	endpoint.datatype = "string"
 	endpoint.description = translate("VPN endpoint for vpn client connection")
 
-	remote_subnet = s:option(DynamicList, "remote_subnets", translate("Remote Subnet"))
+	remote_subnet = s:option(DynamicList, "endpoint_subnets", translate("Remote Subnet"))
 	remote_subnet:depends("mode","manual")
 	remote_subnet.datatype = "string"
 	remote_subnet.description = translate("VPN remote subnet")
