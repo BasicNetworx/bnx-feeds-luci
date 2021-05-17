@@ -57,15 +57,35 @@ else
 	endpoint.datatype = "string"
 	endpoint.description = translate("VPN endpoint for vpn client connection")
 
-	remote_subnet = s:option(DynamicList, "remote_subnets", translate("Remote Subnet"))
+	remote_subnet = s:option(DynamicList, "endpoint_subnets", translate("Remote Subnet"))
 	remote_subnet:depends("mode","manual")
 	remote_subnet.datatype = "string"
 	remote_subnet.description = translate("VPN remote subnet")
 
-	local_subnet = s:option(Value, "local_subnet", translate("Local Subnet"))
-	local_subnet:depends("mode","manual")
-	local_subnet.datatype = "string"
-	local_subnet.description = translate("VPN local subnet")
+	lan_vpn = s:option(ListValue, "connect_local_subnet", translate("Route LAN to VPN"))
+        lan_vpn.datatype = "string"
+        lan_vpn.description = translate("Connect device local network to VPN")
+        lan_vpn:depends("mode","manual")
+        lan_vpn:value("1","Enable")
+        lan_vpn:value("0","Disable")
+        lan_vpn.default = "1"
+
+	c_local_subnet = s:option(ListValue, "custom_local_subnet", translate("Local Subnet Selection"))
+	c_local_subnet.description = translate("Select LAN subnet")
+	c_local_subnet:depends("connect_local_subnet","1")
+	c_local_subnet:value("0","Use LAN subnet")
+	c_local_subnet:value("1","Custom subnet")
+	c_local_subnet.default = "0"
+
+	local_subnet_lan = s:option(Value, "local_subnet", translate("Local Subnet"))
+	local_subnet_lan:depends("connect_local_subnet","0")
+	local_subnet_lan.datatype = "string"
+	local_subnet_lan.description = translate("VPN local subnet")
+
+	custom_subnet = s:option(Value, "local_subnet", translate("Custom Local Subnet"))
+	custom_subnet:depends("custom_local_subnet","1")
+	custom_subnet.datatype = "string"
+	custom_subnet.description = translate("VPN custom local subnet")
 
 	auth_mode = s:option(ListValue, "auth_mode", translate("Authmode"))
 	auth_mode:depends("mode","manual")
