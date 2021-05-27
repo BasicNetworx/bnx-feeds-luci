@@ -103,47 +103,17 @@ else
 	endpoint_id.datatype = "string"
 	endpoint_id.description = translate("VPN endpoint id")
 
-	ca = s:option(TextValue, "ca-cert","CA cert")
+	ca = s:option(TextValue, "ca_cert","CA cert")
 	ca.description = translate("VPN Client CA certificate (Copy paste your ca certificate in above text box....................)")
 	ca:depends("auth_mode","pki")
-	function ca.cfgvalue()
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","ca_cert")
-		return fs.readfile(fileName)
-	end
-	function ca.write(self, section, data)
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","ca_cert")
-		return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
-	end
 
-	devca = s:option(TextValue, "dev-cert","Device cert")
+	devca = s:option(TextValue, "device_cert","Device cert")
 	devca.description = translate("VPN Client device certificate ( Copy paste your device certificate in above text box.......)")
 	devca:depends("auth_mode","pki")
-	function devca.cfgvalue()
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","device_cert")
-	        return fs.readfile(fileName)
-	end
-	function devca.write(self, section, data)
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","device_cert")
-		return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
-	end
 
-	devkey = s:option(TextValue, "ca-key","Device private key")
+	devkey = s:option(TextValue, "device_privkey","Device private key")
 	devkey.description = translate("VPN Client device private key ( Copy paste your device private key in above text box....)")
 	devkey:depends("auth_mode","pki")
-	function devkey.cfgvalue()
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","device_privkey")
-	        return fs.readfile(fileName)
-	end
-	function devkey.write(self, section, data)
-		x = uci.cursor()
-		local fileName = x:get("bnx-vpn","vpn","device_privkey")
-	        return fs.writefile(fileName, ut.trim(data:gsub("\r\n", "\n")) .. "\n")
-	end
 
 	ikec = s:option(Value, "ike_cipher", "Phase 1 (IKE) Proposal")
 	ikec:depends("mode","manual")
