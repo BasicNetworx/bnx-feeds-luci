@@ -9,10 +9,12 @@ function index()
 
 	entry({"admin", "status", "overview"}, template("admin_status/index"), _("Overview"), 1)
 
-	entry({"admin", "status", "iptables"}, view("status/iptables"), _("Firewall"), 2).leaf = true
+	entry({"admin", "status", "sim"}, view("status/bnx-sim"), _("Sim"), 2)
 
-	entry({"admin", "status", "routes"}, view("status/routes"), _("Routes"), 3)
-	entry({"admin", "status", "syslog"}, view("status/syslog"), _("System Log"), 4)
+	entry({"admin", "status", "iptables"}, view("status/iptables"), _("Firewall"), 3).leaf = true
+
+	entry({"admin", "status", "routes"}, view("status/routes"), _("Routes"), 4)
+	entry({"admin", "status", "syslog"}, view("status/syslog"), _("System Log"), 5)
 
 	entry({"admin", "status", "realtime"}, alias("admin", "status", "realtime", "load"), _("Realtime Graphs"), 7)
 
